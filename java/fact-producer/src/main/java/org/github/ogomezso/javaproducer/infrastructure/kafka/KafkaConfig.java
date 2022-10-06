@@ -6,6 +6,9 @@ import static org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG;
 import static org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG;
 import static org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -22,7 +25,15 @@ public class KafkaConfig {
   static KafkaProducer<String, String> createKafkaProducer(AppConfig appConfig) {
 
     Properties props = new Properties();
-    props.put(BOOTSTRAP_SERVERS_CONFIG, appConfig.getBootstrapServers());
+    try (Reader reader = Files.newBufferedReader(Paths.get("connection.properties"))) {
+      props.load(reader);
+    } catch (Exception e) {
+      System.err.printf("Exception reading properties file %s%n", e.getMessage());
+      e.printStackTrace(System.err);
+      System.exit(1);
+    }
+
+    //props.put(BOOTSTRAP_SERVERS_CONFIG, appConfig.getBootstrapServers());
     props.put(KEY_SERIALIZER_CLASS_CONFIG, SERIALIZATION_STRING_SERIALIZER);
     props.put(CLIENT_ID_CONFIG, appConfig.getChuckClientId());
     props.put(ACKS_CONFIG, ACKS_ALL);

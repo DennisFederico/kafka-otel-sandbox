@@ -7,6 +7,9 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_
 import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
@@ -24,7 +27,14 @@ public class KafkaConfig {
   static KafkaConsumer<String, String> createChuckKafkaConsumer(AppConfig appConfig) {
 
     Properties props = new Properties();
-    props.put(BOOTSTRAP_SERVERS_CONFIG, appConfig.getBootstrapServers());
+    try (Reader reader = Files.newBufferedReader(Paths.get("connection.properties"))) {
+      props.load(reader);
+    } catch (Exception e) {
+      System.err.printf("Exception reading properties file %s%n", e.getMessage());
+      e.printStackTrace(System.err);
+      System.exit(1);
+    }
+    //props.put(BOOTSTRAP_SERVERS_CONFIG, appConfig.getBootstrapServers());
     props.put(CLIENT_ID_CONFIG, appConfig.getChuckClientId());
     props.put(GROUP_ID_CONFIG, appConfig.getChuckGroupId());
     props.put(AUTO_OFFSET_RESET_CONFIG, appConfig.getAutoOffsetReset());
