@@ -1,7 +1,7 @@
 ARG BUILD_HOME=/app
 
 # Builder ############################################
-FROM maven:3.6.0-jdk-11-slim AS builder
+FROM maven:latest AS builder
 
 RUN  apt-get update \
   && apt-get install -y wget \
@@ -22,7 +22,7 @@ COPY pom.xml $APP_HOME
 RUN mvn -f $APP_HOME/pom.xml clean package  
 
 # App ############################################
-FROM adoptopenjdk/openjdk11:ubi  
+FROM openjdk:17-jdk-slim
 
 COPY --from=builder $APP_HOME/target/fact-producer-jar-with-dependencies.jar app.jar
 COPY --from=builder $APP_HOME/config/application-docker.yml application-docker.yml

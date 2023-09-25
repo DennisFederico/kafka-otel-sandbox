@@ -1,4 +1,4 @@
 appPort: 38080
-bootstrapServers: broker:29092
+bootstrapServers: pkc-75m1o.europe-west3.gcp.confluent.cloud:9092
 chuckClientId: chuck-java-producer
 chuckTopic: chuck-fact-topic

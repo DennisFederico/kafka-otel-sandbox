@@ -1,4 +1,4 @@
-bootstrapServers: broker:29092
+bootstrapServers: pkc-75m1o.europe-west3.gcp.confluent.cloud:9092
 statsClientId: stats-consumer-id
 statsGroupId: stats-consumer-cg
 statsTopic: chuck-stats-topic

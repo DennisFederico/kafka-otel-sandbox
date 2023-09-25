@@ -28,7 +28,6 @@ After run the env you will have available:
 #### Confluent Platform
 
 Docker compose provides:
-
 ~~~
 1 Zookeeper Node
 1 Kafka Broker
