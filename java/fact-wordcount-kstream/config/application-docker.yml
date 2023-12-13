@@ -1,4 +1,4 @@
-bootstrapServers: pkc-75m1o.europe-west3.gcp.confluent.cloud:9092
+bootstrapServers: pkc-mxqvx.europe-southwest1.gcp.confluent.cloud:9092
 inputTopic: chuck-fact-topic
 outputTopic: chuck-wordcount-topic
 tempStateDir: $APP_HOME/tmp

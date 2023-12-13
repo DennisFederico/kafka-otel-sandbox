@@ -1,4 +1,4 @@
-bootstrapServers: pkc-75m1o.europe-west3.gcp.confluent.cloud:9092
+bootstrapServers: pkc-mxqvx.europe-southwest1.gcp.confluent.cloud:9092
 chuckClientId: chuck-stats-consumer
 chuckGroupId: chuck-stats-cg
 chuckTopic: chuck-fact-topic

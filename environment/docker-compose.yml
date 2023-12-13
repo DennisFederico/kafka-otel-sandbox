@@ -176,13 +176,13 @@ services:
       - "9411:9411"
     environment:
       JAVA_OPTS: -Xms1g -Xmx1g -XX:+ExitOnOutOfMemoryError
-  # Jaeger
-  # jaeger:
-  #  image: jaegertracing/all-in-one:latest
-  #  ports:
-  #    - "16686:16686"
-  #    - "14268"
-  #    - "14250"
+  #Jaeger
+  jaeger:
+   image: jaegertracing/all-in-one:latest
+   ports:
+     - "16686:16686"
+     - "14268"
+     - "14250"
 
   # Collector
   collector:
@@ -230,7 +230,7 @@ services:
       dockerfile: Dockerfile 
       args: 
         OTEL_VERSION: 1.15.0 
-        PROMETHEUS_AGENT_VERSION: 0.17.0
+        PROMETHEUS_AGENT_VERSION: 0.20.0
         APP_NAME: chuck-fact-producer 
         COLLECTOR_ENDPOINT: http://collector:4317    
     ports:
@@ -248,7 +248,7 @@ services:
       dockerfile: Dockerfile 
       args: 
         OTEL_VERSION: 1.15.0 
-        PROMETHEUS_AGENT_VERSION: 0.17.0 
+        PROMETHEUS_AGENT_VERSION: 0.20.0 
         APP_NAME: chuck-fact-consumer 
         COLLECTOR_ENDPOINT: http://collector:4317  
     volumes:
@@ -264,7 +264,7 @@ services:
       dockerfile: Dockerfile 
       args: 
         OTEL_VERSION: 1.15.0 
-        PROMETHEUS_AGENT_VERSION: 0.17.0 
+        PROMETHEUS_AGENT_VERSION: 0.20.0 
         APP_NAME: fact-wordcount-kstream 
         COLLECTOR_ENDPOINT: http://collector:4317  
     volumes:
@@ -280,7 +280,7 @@ services:
       dockerfile: Dockerfile 
       args: 
         OTEL_VERSION: 1.15.0 
-        PROMETHEUS_AGENT_VERSION: 0.17.0 
+        PROMETHEUS_AGENT_VERSION: 0.20.0 
         APP_NAME: wordcount-consumer
         COLLECTOR_ENDPOINT: http://collector:4317  
     volumes:
@@ -296,7 +296,7 @@ services:
       dockerfile: Dockerfile 
       args: 
         OTEL_VERSION: 1.15.0 
-        PROMETHEUS_AGENT_VERSION: 0.17.0 
+        PROMETHEUS_AGENT_VERSION: 0.20.0 
         APP_NAME: fact-stats
         COLLECTOR_ENDPOINT: http://collector:4317  
     volumes:
@@ -311,7 +311,7 @@ services:
       dockerfile: Dockerfile 
       args: 
         OTEL_VERSION: 1.15.0 
-        PROMETHEUS_AGENT_VERSION: 0.17.0 
+        PROMETHEUS_AGENT_VERSION: 0.20.0 
         APP_NAME: stats-consumer
         COLLECTOR_ENDPOINT: http://collector:4317  
     volumes:

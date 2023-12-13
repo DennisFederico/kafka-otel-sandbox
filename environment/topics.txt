@@ -1,0 +1,3 @@
+chuck-fact-topic
+chuck-stats-topic
+chuck-wordcount-topic
