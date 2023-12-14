@@ -73,7 +73,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>org.github.ogomezso.javaproducer.App</mainClass>
+              <mainClass>org.github.dfederico.javaproducer.App</mainClass>
               <classpathPrefix>dependency-jars/</classpathPrefix>
             </manifest>
           </archive>
@@ -103,7 +103,7 @@
               </descriptorRefs>
               <archive>
                 <manifest>
-                  <mainClass>org.github.ogomezso.javaproducer.App</mainClass>
+                  <mainClass>org.github.dfederico.javaproducer.App</mainClass>
                 </manifest>
               </archive>
             </configuration>

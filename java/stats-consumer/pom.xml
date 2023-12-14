@@ -67,7 +67,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>org.github.ogomezso.statsconsumer.App</mainClass>
+              <mainClass>org.github.dfederico.statsconsumer.App</mainClass>
               <classpathPrefix>dependency-jars/</classpathPrefix>
             </manifest>
           </archive>
@@ -97,7 +97,7 @@
               </descriptorRefs>
               <archive>
                 <manifest>
-                  <mainClass>org.github.ogomezso.statsconsumer.App</mainClass>
+                  <mainClass>org.github.dfederico.statsconsumer.App</mainClass>
                 </manifest>
               </archive>
             </configuration>
