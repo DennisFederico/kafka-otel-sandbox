@@ -1,6 +1,7 @@
 package org.github.ogomezso.javaproducer;
 
 import static spark.Spark.port;
+import static spark.Spark.post;
 import static spark.Spark.get;
 
 import java.io.FileNotFoundException;
@@ -21,6 +22,11 @@ public class App {
     AppConfig config = configHandler.getAppConfig(args[0]);
     ChuckController controller = new ChuckController(config);
     port(config.getAppPort());
+    post("/chuck-says", (req, res) -> {
+      log.info("Plain Json request received");
+      res.header("Content-Type", "application/json");
+      return controller.sendFact();
+    });
     // post is technically correct, but for demo purposes we don't want to switch from the browser
     get("/chuck-says", (req, res) -> {
       log.info("Plain Json request received");

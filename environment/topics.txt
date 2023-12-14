@@ -1,3 +1,6 @@
 chuck-fact-topic
 chuck-stats-topic
 chuck-wordcount-topic
+otlp_logs
+otlp_metrics
+otlp_spans

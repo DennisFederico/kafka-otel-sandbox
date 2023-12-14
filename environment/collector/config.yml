@@ -16,10 +16,26 @@ exporters:
     endpoint: "http://zipkin:9411/api/v2/spans"
     format: proto
 
-  # jaeger:
-  #   endpoint: jaeger:14250
-  #   tls:
-  #     insecure: true
+  otlp:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+ 
+  kafka:
+    protocol_version: 3.3.0
+    brokers:
+      - "pkc-mxqvx.europe-southwest1.gcp.confluent.cloud:9092"
+    #topic: "otlp_data_exported"
+    # # Kafka version you are using
+    encoding: "otlp_json"
+    auth:
+      sasl:
+        mechanism: "PLAIN"
+        username: "O7ZSMOSF3HWCQAIB"
+        password: "kga+mZlTdTsqnqYZ8HSCVZifUCFGxA66xEPkHNMZhMMDZXPJKL841noee0Dkx2UG"
+      tls:
+        insecure: false
+        insecure_skip_verify: true
 
 processors:
   batch:
@@ -37,8 +53,8 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, zipkin]
+      exporters: [logging, zipkin, otlp, kafka]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [kafka, logging]
