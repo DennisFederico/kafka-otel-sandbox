@@ -1,4 +1,3 @@
-bootstrapServers: localhost:9092
 wordCountClientId: wordcount-id
 wordCountGroupId: wordcount-cg
 wordCountTopic: chuck-wordcount-topic

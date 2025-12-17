@@ -23,72 +23,23 @@ alerting:
 scrape_configs:
   - job_name: "prometheus"
     static_configs:
-      - targets: ["localhost:9090"] 
-      
-  - job_name: "zookeeper"
+      - targets: ["localhost:9090"]
+
+  - job_name: Confluent Cloud
+    scrape_interval: 1m
+    scrape_timeout: 1m
+    honor_timestamps: true
     static_configs:
       - targets:
-          - "zookeeper:1234"
-        labels:
-          env: "dev"
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: instance
-        regex: '([^:]+)(:[0-9]+)?'
-        replacement: '${1}'
-
-
-  - job_name: "kafka-broker"
-    static_configs:
-      - targets:
-          - "broker:1234"
-        labels:
-          env: "dev"
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: instance
-        regex: '([^:]+)(:[0-9]+)?'
-        replacement: '${1}'
-
-
-  - job_name: "schema-registry"
-    static_configs:
-      - targets:
-          - "schema-registry:1234"
-        labels:
-          env: "dev"
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: instance
-        regex: '([^:]+)(:[0-9]+)?'
-        replacement: '${1}'
-
-
-  - job_name: "kafka-connect"
-    static_configs:
-      - targets:
-          - "connect:1234"
-        labels:
-          env: "dev"
-          kafka_connect_cluster_id: "cluster1"
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: instance
-        regex: '([^:]+)(:[0-9]+)?'
-        replacement: '${1}'
-
-
-#  - job_name: "ksqldb"
-#    static_configs:
-#      - targets:
-#          - "ksqldb-server:1234"
-#        labels:
-#          env: "dev"
-#    relabel_configs:
-#      - source_labels: [__address__]
-#        target_label: instance
-#        regex: '([^:]+)(:[0-9]+)?'
-#        replacement: '${1}'
+          - api.telemetry.confluent.cloud
+    scheme: https
+    basic_auth:
+      username: <Cloud API Key>
+      password: <Cloud API Secret>
+    metrics_path: /v2/metrics/cloud/export
+    params:
+      "resource.kafka.id":
+        - lkc-5onvzn
 
 
 #  - job_name: "streams-demo"
@@ -102,50 +53,65 @@ scrape_configs:
 #        target_label: instance
 #        regex: '([^:]+)(:[0-9]+)?'
 #        replacement: '${1}'
-#
-#  - job_name: "rest-proxy"
-#    static_configs:
-#      - targets:
-#          - "restproxy:1234"
-#        labels:
-#          env: "dev"
-#    relabel_configs:
-#      - source_labels: [__address__]
-#        target_label: instance
-#        regex: '([^:]+)(:[0-9]+)?'
-#        replacement: '${1}'
 
-  - job_name: 'producer'
+  # Metrics about the OTEL Collector itself
+  - job_name: 'OTEL'
     static_configs:
       - targets:
-          - 'spring-app:1234'
-          - "java-producer:1234"
+          - 'collector:1234'
         labels:
           env: 'dev'
+          application: 'otel-collector'
 
-  - job_name: 'consumer'
+  # chuck-fact-producer
+  - job_name: 'fact-producer'
     static_configs:
       - targets:
-          - "java-consumer:1234"
+          - 'chuck-fact-producer:1234'
         labels:
           env: 'dev'
-
-  - job_name: "kafka-lag-exporter"
+          application: 'chuck-fact-producer'
+  # chuck-fact-consumer
+  - job_name: 'chuck-fact-consumer'
     static_configs:
       - targets:
-          - "kafka-lag-exporter:9999"
-        labels:
-          env: "dev"
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: instance
-        regex: '([^:]+)(:[0-9]+)?'
-        replacement: '${1}'
-
-  - job_name: 'spring'
-    metrics_path:  '/actuator/prometheus'
-    static_configs:
-      - targets:
-          - 'spring-app:28080'
+          - 'chuck-fact-consumer:1234'
         labels:
           env: 'dev'
+          application: 'chuck-fact-consumer'
+
+  # chuck-fact-wordcount-kstream
+  - job_name: 'chuck-fact-wordcount-kstream'
+    static_configs:
+      - targets:
+          - 'chuck-fact-wordcount-kstream:1234'
+        labels:
+          env: 'dev'
+          application: 'chuck-fact-wordcount-kstream'
+
+  # chuck-wordcount-consumer
+  - job_name: 'chuck-wordcount-consumer'
+    static_configs:
+      - targets:
+          - 'chuck-wordcount-consumer:1234'
+        labels:
+          env: 'dev'
+          application: 'chuck-wordcount-consumer'
+
+  # chuck-fact-stats
+  - job_name: 'chuck-fact-stats'
+    static_configs:
+      - targets:
+          - 'chuck-fact-stats:1234'
+        labels:
+          env: 'dev'
+          application: 'chuck-fact-stats'
+
+  # chuck-fact-stats-consumer
+  - job_name: 'chuck-fact-stats-consumer'
+    static_configs:
+      - targets:
+          - 'chuck-fact-stats-consumer:1234'
+        labels:
+          env: 'dev'
+          application: 'chuck-fact-stats-consumer'

@@ -1,4 +1,3 @@
-bootstrapServers: localhost:9092
 inputTopic: chuck-fact-topic
 outputTopic: chuck-wordcount-topic
 tempStateDir: ./tmp

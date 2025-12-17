@@ -79,6 +79,11 @@ You can send a request to java producer endpoint with:
 ```sh
 curl -X POST http://localhost:38080/chuck-says
 ```
+
+```rest
+POST http://localhost:38080/chuck-says
+```
+
 `java-consumer` will consume it immediately so you can start to watch traces on [Jaeger UI](http://localhost:16686/)  under `java-consumer` and `java-producer` services. 
 #### Kstream Wordcount
 

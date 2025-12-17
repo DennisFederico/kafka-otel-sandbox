@@ -50,8 +50,7 @@ while IFS= read -r line; do
 
     kafka-topics --bootstrap-server "$BOOTSTRAP_SERVER" \
     --command-config "$PROPS" \
-    --create \
-    --topic $line \
-    --partitions 1
+    --delete \
+    --topic $line
 
 done < "$1"

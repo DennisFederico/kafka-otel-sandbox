@@ -1,4 +1,3 @@
-bootstrapServers: localhost:9092
 chuckClientId: chuck-stats-consumer
 chuckGroupId: chuck-stats-cg
 chuckTopic: chuck-fact-topic

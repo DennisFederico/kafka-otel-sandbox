@@ -2,46 +2,52 @@ receivers:
   otlp:
     protocols:
       grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
 
 exporters:
-  # prometheus:
-  #   endpoint: "0.0.0.0:8889"
-  #   const_labels:
-  #     label1: value1
+  prometheus:
+    endpoint: 0.0.0.0:1234
 
-  logging:
-    loglevel: debug
+  debug:
+    # Replaces the deprecated `logging` exporter. Keeps same verbosity setting.
+    verbosity: normal
 
   zipkin:
     endpoint: "http://zipkin:9411/api/v2/spans"
     format: proto
 
-  otlp:
+  otlp/jaeger:
     endpoint: jaeger:4317
     tls:
       insecure: true
+    sending_queue:
+      batch:
  
   kafka:
     protocol_version: 3.3.0
     brokers:
-      - "pkc-mxqvx.europe-southwest1.gcp.confluent.cloud:9092"
+      - "pkc-7xoy1.eu-central-1.aws.confluent.cloud:9092"
     #topic: "otlp_data_exported"
     # # Kafka version you are using
     encoding: "otlp_json"
     auth:
       sasl:
         mechanism: "PLAIN"
-        username: "O7ZSMOSF3HWCQAIB"
-        password: "kga+mZlTdTsqnqYZ8HSCVZifUCFGxA66xEPkHNMZhMMDZXPJKL841noee0Dkx2UG"
+        username: "NTTDWN6N4QGZY6XS"
+        password: "cflt8ySVrdZseJLLkxPis8MmBjRiFSMk/Ibd+gkJrDtpeeyYtlIFL4BKUJhwNidQ"
       tls:
         insecure: false
         insecure_skip_verify: true
 
-processors:
-  batch:
+#processors:
+#  batch:
 
 extensions:
   health_check:
+    endpoint: :13133
+    path: /healthz
   pprof:
     endpoint: :1888
   zpages:
@@ -52,9 +58,9 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [logging, zipkin, otlp, kafka]
+#      processors: [batch]
+      exporters: [debug, zipkin, otlp/jaeger, kafka]
     metrics:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [kafka, logging]
+#      processors: [batch]
+      exporters: [kafka, debug, prometheus]
